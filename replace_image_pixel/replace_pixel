@@ -1,0 +1,28 @@
+import cv2
+import numpy as np
+from PIL import Image
+
+# Load image
+im_path = "C:/Users/Javed Yasin/Downloads/baboon.png"
+im_array = cv2.imread(im_path)
+
+# Convert BGR to RGB
+im_array = cv2.cvtColor(im_array, cv2.COLOR_BGR2RGB)
+# print(list(im_array))
+display(Image.fromarray(im_array))
+# Define color to replace
+old_color = [255, 0,0]  # the color to be replaced
+
+# Define threshold values
+lower_threshold = np.array([old_color[0]-100, old_color[1]-100, old_color[2]-100])
+upper_threshold = np.array([old_color[0]+100, old_color[1]+100, old_color[2]+100])
+
+# Create a mask using threshold values
+mask = cv2.inRange(im_array, lower_threshold, upper_threshold)
+
+# Replace pixels with new color
+new_color = [0, 0, 0]  # the new color to replace with
+im_array[mask > 0] = new_color
+
+# Display the modified image
+display(Image.fromarray(im_array))
